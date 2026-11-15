@@ -1,0 +1,26 @@
+﻿USE [KUTUPHANEKOVS]
+GO
+DROP PROCEDURE IF EXISTS [dbo].[UyeIslem]
+GO
+CREATE PROCEDURE [dbo].[UyeIslem]
+@UyeId INT --C# TAN GELEN ÜYE BİLGİSİNİ BURAYA AKTAR
+AS BEGIN
+SELECT 
+TblUYELER.UyeId,
+TblUYELER.UyeAd,
+TblUYELER.UyeSoyad, 
+TblUYELER.UyeTCKimlik, 
+TblKITAPLAR.KitapId,
+TblKITAPLAR.KitapAdi, 
+TblYAZARLAR.YazarAdsoyad,
+TblUYEKITAP.OVTarihi,
+DATEDIFF(DAY,TblUYEKITAP.OVTarihi,GETDATE()) AS Sure
+FROM     TblKITAPLAR INNER JOIN TblUYEKITAP ON TblKITAPLAR.KitapId = TblUYEKITAP.KitapId
+                    INNER JOIN TblUYELER ON TblUYEKITAP.UyeId = TblUYELER.UyeId
+                   INNER JOIN   TblYAZARLAR ON TblKITAPLAR.YazarId = TblYAZARLAR.YazarId
+
+WHERE TblUYELER.UyeId=@UyeId --Önemli kısım
+END               
+GO
+
+

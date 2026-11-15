@@ -1,0 +1,16 @@
+USE KUTUPHANEKOVS
+GO
+CREATE TRIGGER trgCezaYaz
+ON TblKasa
+FOR INSERT
+AS BEGIN
+DECLARE @Gun INT = (SELECT Gun FROM inserted)
+DECLARE @Miktar SMALLMONEY = @Gun * 5
+DECLARE @KasaId INT =(SELECT KasaId FROM inserted)
+
+UPDATE TblKasa SET Miktar=@Miktar
+WHERE KasaId=@KasaId
+END
+
+ALTER TABLE dbo.TblKasa
+ADD Gun INT

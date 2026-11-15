@@ -1,0 +1,928 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KUTUPHANEKOVSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ARAC">
+          <Key>
+            <PropertyRef Name="Arac_Id" />
+          </Key>
+          <Property Name="Arac_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Marka" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Model" Type="nchar" MaxLength="4" Nullable="false" />
+          <Property Name="Plaka" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="Fiyat" Type="money" />
+        </EntityType>
+        <EntityType Name="KIRA">
+          <Key>
+            <PropertyRef Name="Kira_Id" />
+          </Key>
+          <Property Name="Kira_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mus_Id" Type="int" Nullable="false" />
+          <Property Name="Araba_Id" Type="int" Nullable="false" />
+          <Property Name="Tarih" Type="date" Nullable="false" />
+          <Property Name="Saat" Type="time" Precision="7" Nullable="false" />
+          <Property Name="TeslimTarih" Type="date" />
+          <Property Name="TeslimSaat" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="MUSTERI">
+          <Key>
+            <PropertyRef Name="Musteri_Id" />
+          </Key>
+          <Property Name="Musteri_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MAd" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MSoyad" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MAdres" Type="ntext" Nullable="false" />
+          <Property Name="MTel" Type="nchar" MaxLength="11" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblKasa">
+          <Key>
+            <PropertyRef Name="KasaId" />
+          </Key>
+          <Property Name="KasaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UyeID" Type="int" />
+          <Property Name="OTId" Type="int" />
+          <Property Name="OTarih" Type="datetime" />
+          <Property Name="Miktar" Type="smallmoney" />
+          <Property Name="Gun" Type="int" />
+        </EntityType>
+        <EntityType Name="TblKITAPLAR">
+          <Key>
+            <PropertyRef Name="KitapId" />
+          </Key>
+          <Property Name="KitapId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ISBN" Type="nchar" MaxLength="13" Nullable="false" />
+          <Property Name="KitapAdi" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Sayafa" Type="int" Nullable="false" />
+          <Property Name="Adet" Type="int" Nullable="false" />
+          <Property Name="YazarId" Type="int" />
+        </EntityType>
+        <EntityType Name="TblOdemeTuru">
+          <Key>
+            <PropertyRef Name="OTId" />
+          </Key>
+          <Property Name="OTId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OTAciklama" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="TblUYEKITAP">
+          <Key>
+            <PropertyRef Name="IKID" />
+          </Key>
+          <Property Name="IKID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KitapId" Type="int" />
+          <Property Name="UyeId" Type="int" />
+          <Property Name="OVTarihi" Type="datetime" Nullable="false" />
+          <Property Name="GATarihi" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TblUYELER">
+          <Key>
+            <PropertyRef Name="UyeId" />
+          </Key>
+          <Property Name="UyeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UyeAd" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="UyeSoyad" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="UyeTCKimlik" Type="nchar" MaxLength="11" Nullable="false" />
+          <Property Name="UyeAdres" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="UyeTel" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TblYAZARLAR">
+          <Key>
+            <PropertyRef Name="YazarId" />
+          </Key>
+          <Property Name="YazarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YazarAdsoyad" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <Association Name="FK__TblKasa__OTId__2FCF1A8A">
+          <End Role="TblOdemeTuru" Type="Self.TblOdemeTuru" Multiplicity="0..1" />
+          <End Role="TblKasa" Type="Self.TblKasa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblOdemeTuru">
+              <PropertyRef Name="OTId" />
+            </Principal>
+            <Dependent Role="TblKasa">
+              <PropertyRef Name="OTId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblKasa__UyeID__2EDAF651">
+          <End Role="TblUYELER" Type="Self.TblUYELER" Multiplicity="0..1" />
+          <End Role="TblKasa" Type="Self.TblKasa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUYELER">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="TblKasa">
+              <PropertyRef Name="UyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblKITAPL__Yazar__5165187F">
+          <End Role="TblYAZARLAR" Type="Self.TblYAZARLAR" Multiplicity="0..1" />
+          <End Role="TblKITAPLAR" Type="Self.TblKITAPLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblYAZARLAR">
+              <PropertyRef Name="YazarId" />
+            </Principal>
+            <Dependent Role="TblKITAPLAR">
+              <PropertyRef Name="YazarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblUYEKIT__Kitap__5441852A">
+          <End Role="TblKITAPLAR" Type="Self.TblKITAPLAR" Multiplicity="0..1" />
+          <End Role="TblUYEKITAP" Type="Self.TblUYEKITAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblKITAPLAR">
+              <PropertyRef Name="KitapId" />
+            </Principal>
+            <Dependent Role="TblUYEKITAP">
+              <PropertyRef Name="KitapId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblUYEKIT__UyeId__5535A963">
+          <End Role="TblUYELER" Type="Self.TblUYELER" Multiplicity="0..1" />
+          <End Role="TblUYEKITAP" Type="Self.TblUYEKITAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUYELER">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="TblUYEKITAP">
+              <PropertyRef Name="UyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Arac">
+          <End Role="ARAC" Type="Self.ARAC" Multiplicity="1" />
+          <End Role="KIRA" Type="Self.KIRA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ARAC">
+              <PropertyRef Name="Arac_Id" />
+            </Principal>
+            <Dependent Role="KIRA">
+              <PropertyRef Name="Araba_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Musteri">
+          <End Role="MUSTERI" Type="Self.MUSTERI" Multiplicity="1" />
+          <End Role="KIRA" Type="Self.KIRA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MUSTERI">
+              <PropertyRef Name="Musteri_Id" />
+            </Principal>
+            <Dependent Role="KIRA">
+              <PropertyRef Name="Mus_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="DenemeUpdateProcedure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="IslemKaydet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UyeId" Type="int" Mode="In" />
+          <Parameter Name="KitapId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KitapEkle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ISBN" Type="nchar" Mode="In" />
+          <Parameter Name="KitapAdi" Type="nvarchar" Mode="In" />
+          <Parameter Name="Sayafa" Type="int" Mode="In" />
+          <Parameter Name="Adet" Type="int" Mode="In" />
+          <Parameter Name="YazarId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KitapGeri" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uyeid" Type="int" Mode="In" />
+          <Parameter Name="okitapid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KitapGeriAl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uyeid" Type="int" Mode="In" />
+          <Parameter Name="okitapid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KitapGeriAl2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uyeid" Type="int" Mode="In" />
+          <Parameter Name="okitapid" Type="int" Mode="In" />
+          <Parameter Name="ceza" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KitapGeriAl3" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uyeid" Type="int" Mode="In" />
+          <Parameter Name="okitapid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KitapGeriAl4" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uyeid" Type="int" Mode="In" />
+          <Parameter Name="okitapid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KitapGeriAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="uyeid" Type="int" Mode="In" />
+          <Parameter Name="okitapid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KitapGuncelle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="KitapId" Type="int" Mode="In" />
+          <Parameter Name="ISBN" Type="nchar" Mode="In" />
+          <Parameter Name="KitapAdi" Type="nvarchar" Mode="In" />
+          <Parameter Name="Sayafa" Type="int" Mode="In" />
+          <Parameter Name="Adet" Type="int" Mode="In" />
+          <Parameter Name="YazarId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="KitapListele" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_KitapAra" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ISBN" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_TCAra" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Ara" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spKitapVer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UyeId" Type="int" Mode="In" />
+          <Parameter Name="KitapId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spUyeAra" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Ara" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spUyeKaydet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UyeAd" Type="nvarchar" Mode="In" />
+          <Parameter Name="UyeSoyad" Type="nvarchar" Mode="In" />
+          <Parameter Name="UyeTCKimlik" Type="nchar" Mode="In" />
+          <Parameter Name="UyeAdres" Type="nvarchar" Mode="In" />
+          <Parameter Name="UyeTel" Type="nchar" Mode="In" />
+        </Function>
+        <Function Name="spYazarKaydet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="YazarAdsoyad" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="spYazarListele" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spYazarListele2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UyeIslem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UyeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UyeIslem2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UyeId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UyeListe" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="KUTUPHANEKOVSModelStoreContainer">
+          <EntitySet Name="ARAC" EntityType="Self.ARAC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KIRA" EntityType="Self.KIRA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MUSTERI" EntityType="Self.MUSTERI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblKasa" EntityType="Self.TblKasa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblKITAPLAR" EntityType="Self.TblKITAPLAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblOdemeTuru" EntityType="Self.TblOdemeTuru" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblUYEKITAP" EntityType="Self.TblUYEKITAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblUYELER" EntityType="Self.TblUYELER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TblYAZARLAR" EntityType="Self.TblYAZARLAR" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__TblKasa__OTId__2FCF1A8A" Association="Self.FK__TblKasa__OTId__2FCF1A8A">
+            <End Role="TblOdemeTuru" EntitySet="TblOdemeTuru" />
+            <End Role="TblKasa" EntitySet="TblKasa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblKasa__UyeID__2EDAF651" Association="Self.FK__TblKasa__UyeID__2EDAF651">
+            <End Role="TblUYELER" EntitySet="TblUYELER" />
+            <End Role="TblKasa" EntitySet="TblKasa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblKITAPL__Yazar__5165187F" Association="Self.FK__TblKITAPL__Yazar__5165187F">
+            <End Role="TblYAZARLAR" EntitySet="TblYAZARLAR" />
+            <End Role="TblKITAPLAR" EntitySet="TblKITAPLAR" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblUYEKIT__Kitap__5441852A" Association="Self.FK__TblUYEKIT__Kitap__5441852A">
+            <End Role="TblKITAPLAR" EntitySet="TblKITAPLAR" />
+            <End Role="TblUYEKITAP" EntitySet="TblUYEKITAP" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblUYEKIT__UyeId__5535A963" Association="Self.FK__TblUYEKIT__UyeId__5535A963">
+            <End Role="TblUYELER" EntitySet="TblUYELER" />
+            <End Role="TblUYEKITAP" EntitySet="TblUYEKITAP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Arac" Association="Self.FK_Arac">
+            <End Role="ARAC" EntitySet="ARAC" />
+            <End Role="KIRA" EntitySet="KIRA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Musteri" Association="Self.FK_Musteri">
+            <End Role="MUSTERI" EntitySet="MUSTERI" />
+            <End Role="KIRA" EntitySet="KIRA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KUTUPHANEKOVSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ARAC">
+          <Key>
+            <PropertyRef Name="Arac_Id" />
+          </Key>
+          <Property Name="Arac_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Marka" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Plaka" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fiyat" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="KIRA" Relationship="Self.FK_Arac" FromRole="ARAC" ToRole="KIRA" />
+        </EntityType>
+        <EntityType Name="KIRA">
+          <Key>
+            <PropertyRef Name="Kira_Id" />
+          </Key>
+          <Property Name="Kira_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mus_Id" Type="Int32" Nullable="false" />
+          <Property Name="Araba_Id" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Saat" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="TeslimTarih" Type="DateTime" Precision="0" />
+          <Property Name="TeslimSaat" Type="Time" Precision="7" />
+          <NavigationProperty Name="ARAC" Relationship="Self.FK_Arac" FromRole="KIRA" ToRole="ARAC" />
+          <NavigationProperty Name="MUSTERI" Relationship="Self.FK_Musteri" FromRole="KIRA" ToRole="MUSTERI" />
+        </EntityType>
+        <EntityType Name="MUSTERI">
+          <Key>
+            <PropertyRef Name="Musteri_Id" />
+          </Key>
+          <Property Name="Musteri_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MAd" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MSoyad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MAdres" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MTel" Type="String" MaxLength="11" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="KIRA" Relationship="Self.FK_Musteri" FromRole="MUSTERI" ToRole="KIRA" />
+        </EntityType>
+        <EntityType Name="TblKasa">
+          <Key>
+            <PropertyRef Name="KasaId" />
+          </Key>
+          <Property Name="KasaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UyeID" Type="Int32" />
+          <Property Name="OTId" Type="Int32" />
+          <Property Name="OTarih" Type="DateTime" Precision="3" />
+          <Property Name="Miktar" Type="Decimal" Precision="10" Scale="4" />
+          <NavigationProperty Name="TblOdemeTuru" Relationship="Self.FK__TblKasa__OTId__2FCF1A8A" FromRole="TblKasa" ToRole="TblOdemeTuru" />
+          <NavigationProperty Name="TblUYELER" Relationship="Self.FK__TblKasa__UyeID__2EDAF651" FromRole="TblKasa" ToRole="TblUYELER" />
+          <Property Name="Gun" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TblKITAPLAR">
+          <Key>
+            <PropertyRef Name="KitapId" />
+          </Key>
+          <Property Name="KitapId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ISBN" Type="String" MaxLength="13" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="KitapAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sayafa" Type="Int32" Nullable="false" />
+          <Property Name="Adet" Type="Int32" Nullable="false" />
+          <Property Name="YazarId" Type="Int32" />
+          <NavigationProperty Name="TblYAZARLAR" Relationship="Self.FK__TblKITAPL__Yazar__5165187F" FromRole="TblKITAPLAR" ToRole="TblYAZARLAR" />
+          <NavigationProperty Name="TblUYEKITAP" Relationship="Self.FK__TblUYEKIT__Kitap__5441852A" FromRole="TblKITAPLAR" ToRole="TblUYEKITAP" />
+        </EntityType>
+        <EntityType Name="TblOdemeTuru">
+          <Key>
+            <PropertyRef Name="OTId" />
+          </Key>
+          <Property Name="OTId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OTAciklama" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblKasa" Relationship="Self.FK__TblKasa__OTId__2FCF1A8A" FromRole="TblOdemeTuru" ToRole="TblKasa" />
+        </EntityType>
+        <EntityType Name="TblUYEKITAP">
+          <Key>
+            <PropertyRef Name="IKID" />
+          </Key>
+          <Property Name="IKID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KitapId" Type="Int32" />
+          <Property Name="UyeId" Type="Int32" />
+          <Property Name="OVTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GATarihi" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TblKITAPLAR" Relationship="Self.FK__TblUYEKIT__Kitap__5441852A" FromRole="TblUYEKITAP" ToRole="TblKITAPLAR" />
+          <NavigationProperty Name="TblUYELER" Relationship="Self.FK__TblUYEKIT__UyeId__5535A963" FromRole="TblUYEKITAP" ToRole="TblUYELER" />
+        </EntityType>
+        <EntityType Name="TblUYELER">
+          <Key>
+            <PropertyRef Name="UyeId" />
+          </Key>
+          <Property Name="UyeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UyeAd" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UyeSoyad" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UyeTCKimlik" Type="String" MaxLength="11" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="UyeAdres" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UyeTel" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TblKasa" Relationship="Self.FK__TblKasa__UyeID__2EDAF651" FromRole="TblUYELER" ToRole="TblKasa" />
+          <NavigationProperty Name="TblUYEKITAP" Relationship="Self.FK__TblUYEKIT__UyeId__5535A963" FromRole="TblUYELER" ToRole="TblUYEKITAP" />
+        </EntityType>
+        <EntityType Name="TblYAZARLAR">
+          <Key>
+            <PropertyRef Name="YazarId" />
+          </Key>
+          <Property Name="YazarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YazarAdsoyad" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TblKITAPLAR" Relationship="Self.FK__TblKITAPL__Yazar__5165187F" FromRole="TblYAZARLAR" ToRole="TblKITAPLAR" />
+        </EntityType>
+        <Association Name="FK_Arac">
+          <End Role="ARAC" Type="Self.ARAC" Multiplicity="1" />
+          <End Role="KIRA" Type="Self.KIRA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ARAC">
+              <PropertyRef Name="Arac_Id" />
+            </Principal>
+            <Dependent Role="KIRA">
+              <PropertyRef Name="Araba_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Musteri">
+          <End Role="MUSTERI" Type="Self.MUSTERI" Multiplicity="1" />
+          <End Role="KIRA" Type="Self.KIRA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MUSTERI">
+              <PropertyRef Name="Musteri_Id" />
+            </Principal>
+            <Dependent Role="KIRA">
+              <PropertyRef Name="Mus_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblKasa__OTId__2FCF1A8A">
+          <End Role="TblOdemeTuru" Type="Self.TblOdemeTuru" Multiplicity="0..1" />
+          <End Role="TblKasa" Type="Self.TblKasa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblOdemeTuru">
+              <PropertyRef Name="OTId" />
+            </Principal>
+            <Dependent Role="TblKasa">
+              <PropertyRef Name="OTId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblKasa__UyeID__2EDAF651">
+          <End Role="TblUYELER" Type="Self.TblUYELER" Multiplicity="0..1" />
+          <End Role="TblKasa" Type="Self.TblKasa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUYELER">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="TblKasa">
+              <PropertyRef Name="UyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblKITAPL__Yazar__5165187F">
+          <End Role="TblYAZARLAR" Type="Self.TblYAZARLAR" Multiplicity="0..1" />
+          <End Role="TblKITAPLAR" Type="Self.TblKITAPLAR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblYAZARLAR">
+              <PropertyRef Name="YazarId" />
+            </Principal>
+            <Dependent Role="TblKITAPLAR">
+              <PropertyRef Name="YazarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblUYEKIT__Kitap__5441852A">
+          <End Role="TblKITAPLAR" Type="Self.TblKITAPLAR" Multiplicity="0..1" />
+          <End Role="TblUYEKITAP" Type="Self.TblUYEKITAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblKITAPLAR">
+              <PropertyRef Name="KitapId" />
+            </Principal>
+            <Dependent Role="TblUYEKITAP">
+              <PropertyRef Name="KitapId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TblUYEKIT__UyeId__5535A963">
+          <End Role="TblUYELER" Type="Self.TblUYELER" Multiplicity="0..1" />
+          <End Role="TblUYEKITAP" Type="Self.TblUYEKITAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TblUYELER">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="TblUYEKITAP">
+              <PropertyRef Name="UyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KUTUPHANEKOVSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ARAC" EntityType="Self.ARAC" />
+          <EntitySet Name="KIRA" EntityType="Self.KIRA" />
+          <EntitySet Name="MUSTERI" EntityType="Self.MUSTERI" />
+          <EntitySet Name="TblKasa" EntityType="Self.TblKasa" />
+          <EntitySet Name="TblKITAPLAR" EntityType="Self.TblKITAPLAR" />
+          <EntitySet Name="TblOdemeTuru" EntityType="Self.TblOdemeTuru" />
+          <EntitySet Name="TblUYEKITAP" EntityType="Self.TblUYEKITAP" />
+          <EntitySet Name="TblUYELER" EntityType="Self.TblUYELER" />
+          <EntitySet Name="TblYAZARLAR" EntityType="Self.TblYAZARLAR" />
+          <AssociationSet Name="FK_Arac" Association="Self.FK_Arac">
+            <End Role="ARAC" EntitySet="ARAC" />
+            <End Role="KIRA" EntitySet="KIRA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Musteri" Association="Self.FK_Musteri">
+            <End Role="MUSTERI" EntitySet="MUSTERI" />
+            <End Role="KIRA" EntitySet="KIRA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblKasa__OTId__2FCF1A8A" Association="Self.FK__TblKasa__OTId__2FCF1A8A">
+            <End Role="TblOdemeTuru" EntitySet="TblOdemeTuru" />
+            <End Role="TblKasa" EntitySet="TblKasa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblKasa__UyeID__2EDAF651" Association="Self.FK__TblKasa__UyeID__2EDAF651">
+            <End Role="TblUYELER" EntitySet="TblUYELER" />
+            <End Role="TblKasa" EntitySet="TblKasa" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblKITAPL__Yazar__5165187F" Association="Self.FK__TblKITAPL__Yazar__5165187F">
+            <End Role="TblYAZARLAR" EntitySet="TblYAZARLAR" />
+            <End Role="TblKITAPLAR" EntitySet="TblKITAPLAR" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblUYEKIT__Kitap__5441852A" Association="Self.FK__TblUYEKIT__Kitap__5441852A">
+            <End Role="TblKITAPLAR" EntitySet="TblKITAPLAR" />
+            <End Role="TblUYEKITAP" EntitySet="TblUYEKITAP" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TblUYEKIT__UyeId__5535A963" Association="Self.FK__TblUYEKIT__UyeId__5535A963">
+            <End Role="TblUYELER" EntitySet="TblUYELER" />
+            <End Role="TblUYEKITAP" EntitySet="TblUYEKITAP" />
+          </AssociationSet>
+          <FunctionImport Name="DenemeUpdateProcedure" />
+          <FunctionImport Name="IslemKaydet">
+            <Parameter Name="UyeId" Mode="In" Type="Int32" />
+            <Parameter Name="KitapId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KitapEkle">
+            <Parameter Name="ISBN" Mode="In" Type="String" />
+            <Parameter Name="KitapAdi" Mode="In" Type="String" />
+            <Parameter Name="Sayafa" Mode="In" Type="Int32" />
+            <Parameter Name="Adet" Mode="In" Type="Int32" />
+            <Parameter Name="YazarId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KitapGeri">
+            <Parameter Name="uyeid" Mode="In" Type="Int32" />
+            <Parameter Name="okitapid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KitapGeriAl">
+            <Parameter Name="uyeid" Mode="In" Type="Int32" />
+            <Parameter Name="okitapid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KitapGeriAl2">
+            <Parameter Name="uyeid" Mode="In" Type="Int32" />
+            <Parameter Name="okitapid" Mode="In" Type="Int32" />
+            <Parameter Name="ceza" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KitapGeriAll">
+            <Parameter Name="uyeid" Mode="In" Type="Int32" />
+            <Parameter Name="okitapid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KitapGuncelle">
+            <Parameter Name="KitapId" Mode="In" Type="Int32" />
+            <Parameter Name="ISBN" Mode="In" Type="String" />
+            <Parameter Name="KitapAdi" Mode="In" Type="String" />
+            <Parameter Name="Sayafa" Mode="In" Type="Int32" />
+            <Parameter Name="Adet" Mode="In" Type="Int32" />
+            <Parameter Name="YazarId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KitapListele" ReturnType="Collection(KUTUPHANEKOVSModel.KitapListele_Result)" />
+          <FunctionImport Name="sp_KitapAra" ReturnType="Collection(KUTUPHANEKOVSModel.sp_KitapAra_Result)">
+          <Parameter Name="ISBN" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_TCAra" ReturnType="Collection(KUTUPHANEKOVSModel.sp_TCAra_Result)">
+          <Parameter Name="Ara" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUyeAra" ReturnType="Collection(KUTUPHANEKOVSModel.spUyeAra_Result)">
+          <Parameter Name="Ara" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUyeKaydet">
+            <Parameter Name="UyeAd" Mode="In" Type="String" />
+            <Parameter Name="UyeSoyad" Mode="In" Type="String" />
+            <Parameter Name="UyeTCKimlik" Mode="In" Type="String" />
+            <Parameter Name="UyeAdres" Mode="In" Type="String" />
+            <Parameter Name="UyeTel" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spYazarKaydet" ReturnType="Collection(Int32)">
+          <Parameter Name="YazarAdsoyad" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spYazarListele" ReturnType="Collection(KUTUPHANEKOVSModel.spYazarListele_Result)" />
+          <FunctionImport Name="spYazarListele2" ReturnType="Collection(KUTUPHANEKOVSModel.spYazarListele2_Result)" />
+          <FunctionImport Name="UyeIslem" ReturnType="Collection(KUTUPHANEKOVSModel.UyeIslem_Result)">
+          <Parameter Name="UyeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UyeIslem2" ReturnType="Collection(KUTUPHANEKOVSModel.UyeIslem2_Result)">
+          <Parameter Name="UyeId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UyeListe" ReturnType="Collection(KUTUPHANEKOVSModel.UyeListe_Result)" />
+          <FunctionImport Name="KitapGeriAl3">
+            <Parameter Name="uyeid" Mode="In" Type="Int32" />
+            <Parameter Name="okitapid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="KitapGeriAl4">
+            <Parameter Name="uyeid" Mode="In" Type="Int32" />
+            <Parameter Name="okitapid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spKitapVer">
+            <Parameter Name="UyeId" Mode="In" Type="Int32" />
+            <Parameter Name="KitapId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="KitapListele_Result">
+          <Property Type="Int32" Name="KitapId" Nullable="false" />
+          <Property Type="String" Name="ISBN" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="KitapAdi" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="Sayafa" Nullable="false" />
+          <Property Type="Int32" Name="Adet" Nullable="false" />
+          <Property Type="String" Name="YazarAdsoyad" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="YazarId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_KitapAra_Result">
+          <Property Type="Int32" Name="KitapId" Nullable="false" />
+          <Property Type="String" Name="ISBN" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="KitapAdi" Nullable="false" MaxLength="250" />
+          <Property Type="Int32" Name="Sayafa" Nullable="false" />
+          <Property Type="Int32" Name="Adet" Nullable="false" />
+          <Property Type="Int32" Name="YazarId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_TCAra_Result">
+          <Property Type="Int32" Name="UyeId" Nullable="false" />
+          <Property Type="String" Name="UyeAd" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeSoyad" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeTCKimlik" Nullable="false" MaxLength="11" />
+          <Property Type="String" Name="UyeAdres" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeTel" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spUyeAra_Result">
+          <Property Type="Int32" Name="UyeId" Nullable="false" />
+          <Property Type="String" Name="UyeAd" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeSoyad" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeTCKimlik" Nullable="false" MaxLength="11" />
+          <Property Type="String" Name="UyeAdres" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeTel" Nullable="false" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spYazarListele_Result">
+          <Property Type="Int32" Name="YazarId" Nullable="false" />
+          <Property Type="String" Name="YazarAdsoyad" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="spYazarListele2_Result">
+          <Property Type="Int32" Name="YazarId" Nullable="false" />
+          <Property Type="String" Name="YazarAdsoyad" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="UyeIslem_Result">
+          <Property Type="Int32" Name="UyeId" Nullable="false" />
+          <Property Type="String" Name="UyeAd" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeSoyad" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeTCKimlik" Nullable="false" MaxLength="11" />
+          <Property Type="Int32" Name="KitapId" Nullable="false" />
+          <Property Type="String" Name="KitapAdi" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="YazarAdsoyad" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="OVTarihi" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Sure" Nullable="true" />
+          <Property Type="Int32" Name="Ceza" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UyeIslem2_Result">
+          <Property Type="Int32" Name="UyeId" Nullable="false" />
+          <Property Type="String" Name="UyeAd" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeSoyad" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeTCKimlik" Nullable="false" MaxLength="11" />
+          <Property Type="Int32" Name="KitapId" Nullable="false" />
+          <Property Type="String" Name="KitapAdi" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="YazarAdsoyad" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="OVTarihi" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Sure" Nullable="true" />
+          <Property Type="Int32" Name="Ceza" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UyeListe_Result">
+          <Property Type="Int32" Name="UyeId" Nullable="false" />
+          <Property Type="String" Name="UyeAd" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeSoyad" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeTCKimlik" Nullable="false" MaxLength="11" />
+          <Property Type="String" Name="UyeAdres" Nullable="false" MaxLength="250" />
+          <Property Type="String" Name="UyeTel" Nullable="false" MaxLength="10" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KUTUPHANEKOVSModelStoreContainer" CdmEntityContainer="KUTUPHANEKOVSEntities">
+          <EntitySetMapping Name="ARAC">
+            <EntityTypeMapping TypeName="KUTUPHANEKOVSModel.ARAC">
+              <MappingFragment StoreEntitySet="ARAC">
+                <ScalarProperty Name="Arac_Id" ColumnName="Arac_Id" />
+                <ScalarProperty Name="Marka" ColumnName="Marka" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Plaka" ColumnName="Plaka" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KIRA">
+            <EntityTypeMapping TypeName="KUTUPHANEKOVSModel.KIRA">
+              <MappingFragment StoreEntitySet="KIRA">
+                <ScalarProperty Name="Kira_Id" ColumnName="Kira_Id" />
+                <ScalarProperty Name="Mus_Id" ColumnName="Mus_Id" />
+                <ScalarProperty Name="Araba_Id" ColumnName="Araba_Id" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Saat" ColumnName="Saat" />
+                <ScalarProperty Name="TeslimTarih" ColumnName="TeslimTarih" />
+                <ScalarProperty Name="TeslimSaat" ColumnName="TeslimSaat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MUSTERI">
+            <EntityTypeMapping TypeName="KUTUPHANEKOVSModel.MUSTERI">
+              <MappingFragment StoreEntitySet="MUSTERI">
+                <ScalarProperty Name="Musteri_Id" ColumnName="Musteri_Id" />
+                <ScalarProperty Name="MAd" ColumnName="MAd" />
+                <ScalarProperty Name="MSoyad" ColumnName="MSoyad" />
+                <ScalarProperty Name="MAdres" ColumnName="MAdres" />
+                <ScalarProperty Name="MTel" ColumnName="MTel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblKasa">
+            <EntityTypeMapping TypeName="KUTUPHANEKOVSModel.TblKasa">
+              <MappingFragment StoreEntitySet="TblKasa">
+                <ScalarProperty Name="Gun" ColumnName="Gun" />
+                <ScalarProperty Name="KasaId" ColumnName="KasaId" />
+                <ScalarProperty Name="UyeID" ColumnName="UyeID" />
+                <ScalarProperty Name="OTId" ColumnName="OTId" />
+                <ScalarProperty Name="OTarih" ColumnName="OTarih" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblKITAPLAR">
+            <EntityTypeMapping TypeName="KUTUPHANEKOVSModel.TblKITAPLAR">
+              <MappingFragment StoreEntitySet="TblKITAPLAR">
+                <ScalarProperty Name="KitapId" ColumnName="KitapId" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="KitapAdi" ColumnName="KitapAdi" />
+                <ScalarProperty Name="Sayafa" ColumnName="Sayafa" />
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
+                <ScalarProperty Name="YazarId" ColumnName="YazarId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblOdemeTuru">
+            <EntityTypeMapping TypeName="KUTUPHANEKOVSModel.TblOdemeTuru">
+              <MappingFragment StoreEntitySet="TblOdemeTuru">
+                <ScalarProperty Name="OTId" ColumnName="OTId" />
+                <ScalarProperty Name="OTAciklama" ColumnName="OTAciklama" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblUYEKITAP">
+            <EntityTypeMapping TypeName="KUTUPHANEKOVSModel.TblUYEKITAP">
+              <MappingFragment StoreEntitySet="TblUYEKITAP">
+                <ScalarProperty Name="IKID" ColumnName="IKID" />
+                <ScalarProperty Name="KitapId" ColumnName="KitapId" />
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="OVTarihi" ColumnName="OVTarihi" />
+                <ScalarProperty Name="GATarihi" ColumnName="GATarihi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblUYELER">
+            <EntityTypeMapping TypeName="KUTUPHANEKOVSModel.TblUYELER">
+              <MappingFragment StoreEntitySet="TblUYELER">
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="UyeAd" ColumnName="UyeAd" />
+                <ScalarProperty Name="UyeSoyad" ColumnName="UyeSoyad" />
+                <ScalarProperty Name="UyeTCKimlik" ColumnName="UyeTCKimlik" />
+                <ScalarProperty Name="UyeAdres" ColumnName="UyeAdres" />
+                <ScalarProperty Name="UyeTel" ColumnName="UyeTel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblYAZARLAR">
+            <EntityTypeMapping TypeName="KUTUPHANEKOVSModel.TblYAZARLAR">
+              <MappingFragment StoreEntitySet="TblYAZARLAR">
+                <ScalarProperty Name="YazarId" ColumnName="YazarId" />
+                <ScalarProperty Name="YazarAdsoyad" ColumnName="YazarAdsoyad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DenemeUpdateProcedure" FunctionName="KUTUPHANEKOVSModel.Store.DenemeUpdateProcedure" />
+          <FunctionImportMapping FunctionImportName="IslemKaydet" FunctionName="KUTUPHANEKOVSModel.Store.IslemKaydet" />
+          <FunctionImportMapping FunctionImportName="KitapEkle" FunctionName="KUTUPHANEKOVSModel.Store.KitapEkle" />
+          <FunctionImportMapping FunctionImportName="KitapGeri" FunctionName="KUTUPHANEKOVSModel.Store.KitapGeri" />
+          <FunctionImportMapping FunctionImportName="KitapGeriAl" FunctionName="KUTUPHANEKOVSModel.Store.KitapGeriAl" />
+          <FunctionImportMapping FunctionImportName="KitapGeriAl2" FunctionName="KUTUPHANEKOVSModel.Store.KitapGeriAl2" />
+          <FunctionImportMapping FunctionImportName="KitapGeriAll" FunctionName="KUTUPHANEKOVSModel.Store.KitapGeriAll" />
+          <FunctionImportMapping FunctionImportName="KitapGuncelle" FunctionName="KUTUPHANEKOVSModel.Store.KitapGuncelle" />
+          <FunctionImportMapping FunctionImportName="KitapListele" FunctionName="KUTUPHANEKOVSModel.Store.KitapListele">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KUTUPHANEKOVSModel.KitapListele_Result">
+                <ScalarProperty Name="KitapId" ColumnName="KitapId" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="KitapAdi" ColumnName="KitapAdi" />
+                <ScalarProperty Name="Sayafa" ColumnName="Sayafa" />
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
+                <ScalarProperty Name="YazarAdsoyad" ColumnName="YazarAdsoyad" />
+                <ScalarProperty Name="YazarId" ColumnName="YazarId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_KitapAra" FunctionName="KUTUPHANEKOVSModel.Store.sp_KitapAra">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KUTUPHANEKOVSModel.sp_KitapAra_Result">
+                <ScalarProperty Name="KitapId" ColumnName="KitapId" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="KitapAdi" ColumnName="KitapAdi" />
+                <ScalarProperty Name="Sayafa" ColumnName="Sayafa" />
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
+                <ScalarProperty Name="YazarId" ColumnName="YazarId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_TCAra" FunctionName="KUTUPHANEKOVSModel.Store.sp_TCAra">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KUTUPHANEKOVSModel.sp_TCAra_Result">
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="UyeAd" ColumnName="UyeAd" />
+                <ScalarProperty Name="UyeSoyad" ColumnName="UyeSoyad" />
+                <ScalarProperty Name="UyeTCKimlik" ColumnName="UyeTCKimlik" />
+                <ScalarProperty Name="UyeAdres" ColumnName="UyeAdres" />
+                <ScalarProperty Name="UyeTel" ColumnName="UyeTel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spUyeAra" FunctionName="KUTUPHANEKOVSModel.Store.spUyeAra">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KUTUPHANEKOVSModel.spUyeAra_Result">
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="UyeAd" ColumnName="UyeAd" />
+                <ScalarProperty Name="UyeSoyad" ColumnName="UyeSoyad" />
+                <ScalarProperty Name="UyeTCKimlik" ColumnName="UyeTCKimlik" />
+                <ScalarProperty Name="UyeAdres" ColumnName="UyeAdres" />
+                <ScalarProperty Name="UyeTel" ColumnName="UyeTel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spUyeKaydet" FunctionName="KUTUPHANEKOVSModel.Store.spUyeKaydet" />
+          <FunctionImportMapping FunctionImportName="spYazarKaydet" FunctionName="KUTUPHANEKOVSModel.Store.spYazarKaydet" />
+          <FunctionImportMapping FunctionImportName="spYazarListele" FunctionName="KUTUPHANEKOVSModel.Store.spYazarListele">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KUTUPHANEKOVSModel.spYazarListele_Result">
+                <ScalarProperty Name="YazarId" ColumnName="YazarId" />
+                <ScalarProperty Name="YazarAdsoyad" ColumnName="YazarAdsoyad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spYazarListele2" FunctionName="KUTUPHANEKOVSModel.Store.spYazarListele2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KUTUPHANEKOVSModel.spYazarListele2_Result">
+                <ScalarProperty Name="YazarId" ColumnName="YazarId" />
+                <ScalarProperty Name="YazarAdsoyad" ColumnName="YazarAdsoyad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UyeIslem" FunctionName="KUTUPHANEKOVSModel.Store.UyeIslem">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KUTUPHANEKOVSModel.UyeIslem_Result">
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="UyeAd" ColumnName="UyeAd" />
+                <ScalarProperty Name="UyeSoyad" ColumnName="UyeSoyad" />
+                <ScalarProperty Name="UyeTCKimlik" ColumnName="UyeTCKimlik" />
+                <ScalarProperty Name="KitapId" ColumnName="KitapId" />
+                <ScalarProperty Name="KitapAdi" ColumnName="KitapAdi" />
+                <ScalarProperty Name="YazarAdsoyad" ColumnName="YazarAdsoyad" />
+                <ScalarProperty Name="OVTarihi" ColumnName="OVTarihi" />
+                <ScalarProperty Name="Sure" ColumnName="Sure" />
+                <ScalarProperty Name="Ceza" ColumnName="Ceza" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UyeIslem2" FunctionName="KUTUPHANEKOVSModel.Store.UyeIslem2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KUTUPHANEKOVSModel.UyeIslem2_Result">
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="UyeAd" ColumnName="UyeAd" />
+                <ScalarProperty Name="UyeSoyad" ColumnName="UyeSoyad" />
+                <ScalarProperty Name="UyeTCKimlik" ColumnName="UyeTCKimlik" />
+                <ScalarProperty Name="KitapId" ColumnName="KitapId" />
+                <ScalarProperty Name="KitapAdi" ColumnName="KitapAdi" />
+                <ScalarProperty Name="YazarAdsoyad" ColumnName="YazarAdsoyad" />
+                <ScalarProperty Name="OVTarihi" ColumnName="OVTarihi" />
+                <ScalarProperty Name="Sure" ColumnName="Sure" />
+                <ScalarProperty Name="Ceza" ColumnName="Ceza" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UyeListe" FunctionName="KUTUPHANEKOVSModel.Store.UyeListe">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KUTUPHANEKOVSModel.UyeListe_Result">
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="UyeAd" ColumnName="UyeAd" />
+                <ScalarProperty Name="UyeSoyad" ColumnName="UyeSoyad" />
+                <ScalarProperty Name="UyeTCKimlik" ColumnName="UyeTCKimlik" />
+                <ScalarProperty Name="UyeAdres" ColumnName="UyeAdres" />
+                <ScalarProperty Name="UyeTel" ColumnName="UyeTel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="KitapGeriAl3" FunctionName="KUTUPHANEKOVSModel.Store.KitapGeriAl3" />
+          <FunctionImportMapping FunctionImportName="KitapGeriAl4" FunctionName="KUTUPHANEKOVSModel.Store.KitapGeriAl4" />
+          <FunctionImportMapping FunctionImportName="spKitapVer" FunctionName="KUTUPHANEKOVSModel.Store.spKitapVer" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
