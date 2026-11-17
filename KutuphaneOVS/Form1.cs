@@ -115,8 +115,9 @@ namespace KutuphaneOVS
         #region İşlem DataGridView
         private void dgvIslem_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            okitapid = Convert.ToInt32(dgvIslem.CurrentRow.Cells[0].Value.ToString());
-            ceza = (int)dgvIslem.CurrentRow.Cells[9].Value;
+            // Sütun sırası değil adı kullanılır: 0. sütun gizli UyeId'dir, kitap numarası KitapId sütunundadır
+            okitapid = Convert.ToInt32(dgvIslem.CurrentRow.Cells["KitapId"].Value);
+            ceza = Convert.ToInt32(dgvIslem.CurrentRow.Cells["Ceza"].Value ?? 0);
         }
         #endregion
 
