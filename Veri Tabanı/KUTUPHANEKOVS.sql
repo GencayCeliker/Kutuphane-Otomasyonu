@@ -377,11 +377,14 @@ CREATE PROCEDURE [dbo].[KitapGeriAl4]
 
 AS BEGIN
 SET NOCOUNT ON
-DECLARE @OVTarihi DATETIME=(SELECT OVTarihi FROM TblUYEKITAP 
-							WHERE UyeId=@uyeid AND KitapId=@okitapid )
-							
+-- Üye aynı kitabı daha önce de almış olabilir: yalnızca henüz iade edilmemiş (açık) ödünç kaydı alınır
+DECLARE @OVTarihi DATETIME=(SELECT TOP 1 OVTarihi FROM TblUYEKITAP 
+							WHERE UyeId=@uyeid AND KitapId=@okitapid AND GATarihi IS NULL
+							ORDER BY OVTarihi)
+IF @OVTarihi IS NULL RETURN -- iade edilecek açık ödünç yok
+
 UPDATE TblUYEKITAP SET GATarihi=GETDATE()
-WHERE UyeId=@uyeid AND KitapId=@okitapid 
+WHERE UyeId=@uyeid AND KitapId=@okitapid AND GATarihi IS NULL AND OVTarihi=@OVTarihi
 
 UPDATE TblKITAPLAR SET Adet=Adet+1
 WHERE KitapId=@okitapid
