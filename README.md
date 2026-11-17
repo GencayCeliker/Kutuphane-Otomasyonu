@@ -63,3 +63,7 @@ Kutuphane-Otomasyonu/
 4. **Çalıştırın:** `KutuphaneOVS/KutuphaneOVS.sln` dosyasını Visual Studio ile açın. NuGet paketleri otomatik geri yüklenir; **F5** ile başlatın.
 
 > Örnek verilerdeki TC Kimlik ve telefon numaraları gerçek değildir.
+
+## 📄 Lisans
+
+Bu proje [MIT](LICENSE) lisansı altında sunulmuştur.
