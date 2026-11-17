@@ -387,12 +387,10 @@ UPDATE TblKITAPLAR SET Adet=Adet+1
 WHERE KitapId=@okitapid
 
 Declare @Gun INT =DATEDIFF(DAY,@OVTarihi,GETDATE())
--- Ceza yalnızca 15 günlük ödünç süresi aşıldıysa yazılır; zamanında iadede kasaya kayıt düşmez
+-- Kitap iade edilene kadar ceza her gün artar (UyeIslem2 canlı hesaplar).
+-- İadede, 15 günlük süre aşıldıysa kasaya TEK ceza kaydı düşer; tutarı trgCezaYaz hesaplar (gün × 5 TL).
 IF @Gun > 15
 BEGIN
-INSERT INTO TblKasa(UyeID,OTId,OTarih,Gun) 
-			VALUES(@uyeid,2,GETDATE(),@Gun-15)
-
 INSERT INTO TblKasa(UyeID,OTId,OTarih,Gun) 
 			VALUES(@uyeid,1,GETDATE(),@Gun-15)
 END
