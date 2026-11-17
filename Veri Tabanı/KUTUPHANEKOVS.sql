@@ -387,11 +387,15 @@ UPDATE TblKITAPLAR SET Adet=Adet+1
 WHERE KitapId=@okitapid
 
 Declare @Gun INT =DATEDIFF(DAY,@OVTarihi,GETDATE())
+-- Ceza yalnızca 15 günlük ödünç süresi aşıldıysa yazılır; zamanında iadede kasaya kayıt düşmez
+IF @Gun > 15
+BEGIN
 INSERT INTO TblKasa(UyeID,OTId,OTarih,Gun) 
 			VALUES(@uyeid,2,GETDATE(),@Gun-15)
 
 INSERT INTO TblKasa(UyeID,OTId,OTarih,Gun) 
 			VALUES(@uyeid,1,GETDATE(),@Gun-15)
+END
 END
 GO
 
