@@ -11,6 +11,19 @@
 
 ---
 
+## 🎬 Demo
+
+![demo](docs/demo.gif)
+
+Üye TC ile aranıyor, üyenin üzerindeki kitaplar gecikme cezasıyla listeleniyor; "Kar" ödünç veriliyor ve **Geri Al** ile iade ediliyor.
+
+| Üyenin üzerindeki kitaplar ve ceza tutarı | Ödünç verme sonrası |
+| --- | --- |
+| ![Üyenin üzerindeki kitaplar ve ceza tutarı](docs/uye-ceza.png) | ![Ödünç verme sonrası](docs/odunc-ver.png) |
+
+> Görüntüler, depodaki kurulum script'iyle kurulan örnek veritabanı üzerinde uygulama çalıştırılarak alınmıştır.
+
+
 ## 🚀 Özellikler
 
 - **Üye işlemleri:** Ad, soyad, TC Kimlik, adres ve telefon ile üye kaydı; TC Kimlik ile anlık arama
